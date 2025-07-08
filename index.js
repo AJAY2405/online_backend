@@ -26,6 +26,9 @@ app.use(cors(corsOptions));
 
 
 
+// ✅ Handle preflight OPTIONS request
+app.options('*', cors(corsOptions));
+
 
 //api routes
 app.use('/api/v1/user', userRoute);
