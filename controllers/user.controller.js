@@ -134,6 +134,8 @@ export const logout = async (req, res) => {
   }
 };
 
+
+
 // ------------------------- UPDATE PROFILE ------------------------
 export const updateProfile = async (req, res) => {
   try {

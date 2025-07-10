@@ -16,18 +16,20 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 const corsOptions = {
-   origin: ['https://online-frontend-three.vercel.app'],
-  // origin: 'http://localhost:5173', // Adjust this to your frontend URL
+  //  origin: ['https://online-frontend-three.vercel.app'],
+  origin: [
+  "http://localhost:5173",
+  "https://your-production-frontend.com", // e.g. vercel link
+], // Adjust this to your frontend URL
   credentials: true, // Allow cookies to be sent
-   methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
 };
 app.use(cors(corsOptions));
 
 
 
 // ✅ Handle preflight OPTIONS request
-app.options('*', cors(corsOptions));
+//  app.options('*', cors(corsOptions));
+app.use(cors(corsOptions)); 
 
 
 //api routes
@@ -43,7 +45,7 @@ app.use('/api/v1/application', applicationRoute);
 
 
 
-const PORT=process.env.PORT;
+const PORT=process.env.PORT ||10000;
 app.listen(PORT, () => {
   connectDB();  
   console.log(`Server is running on port ${PORT}`);
