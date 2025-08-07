@@ -15,21 +15,41 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+// const corsOptions = {
+//   //  origin: ['https://online-frontend-three.vercel.app'],
+//   origin: [
+//   "http://localhost:5173",
+//   // "https://your-production-frontend.com", // e.g. vercel link
+// ], // Adjust this to your frontend URL
+//   credentials: true, // Allow cookies to be sent
+// };
+// app.use(cors(corsOptions));
+
+
+
+// // ✅ Handle preflight OPTIONS request
+// //  app.options('*', cors(corsOptions));
+// app.use(cors(corsOptions)); 
+
+
+
 const corsOptions = {
-  //  origin: ['https://online-frontend-three.vercel.app'],
-  origin: [
-  "http://localhost:5173",
-  "https://your-production-frontend.com", // e.g. vercel link
-], // Adjust this to your frontend URL
-  credentials: true, // Allow cookies to be sent
+  origin: function (origin, callback) {
+    const allowedOrigins = [
+      "http://localhost:5173",
+      "https://online-frontend-three.vercel.app",
+    ];
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  credentials: true,
 };
+
 app.use(cors(corsOptions));
 
-
-
-// ✅ Handle preflight OPTIONS request
-//  app.options('*', cors(corsOptions));
-app.use(cors(corsOptions)); 
 
 
 //api routes
