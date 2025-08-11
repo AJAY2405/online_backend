@@ -58,7 +58,7 @@ export const register = async (req, res) => {
 export const login = async (req, res) => {
   try {
     const { email, password, role } = req.body;
-
+     console.log(email, password, role)
     if (!email || !password || !role) {
       return res.status(400).json({
         message: "Something is missing",
@@ -105,10 +105,11 @@ export const login = async (req, res) => {
     return res
       .status(200)
       .cookie("token", token, {
-        maxAge: 1 * 24 * 60 * 60 * 1000,
+        maxAge: 7 * 24 * 60 * 60 * 1000,
         httpOnly: true,
         sameSite: "Lax",
-        secure: false
+        secure: false,
+
       })
       .json({
         message: `Welcome back ${user.fullname}`,

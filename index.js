@@ -34,22 +34,18 @@ app.use(cookieParser());
 
 
 const corsOptions = {
-  origin: function (origin, callback) {
-    const allowedOrigins = [
-      "http://localhost:5173",
-      "https://online-frontend-three.vercel.app",
-    ];
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error("Not allowed by CORS"));
-    }
-  },
-  credentials: true,
+  origin: [
+    "http://localhost:5173",
+    "https://online-frontend-three.vercel.app"
+  ],
+  credentials: true
 };
-
 app.use(cors(corsOptions));
 
+
+app.get("/", (req, res) => {
+  res.send("Backend is running ✅");
+});
 
 
 //api routes
