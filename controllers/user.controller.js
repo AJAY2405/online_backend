@@ -58,7 +58,7 @@ export const register = async (req, res) => {
 export const login = async (req, res) => {
   try {
     const { email, password, role } = req.body;
-     console.log(email, password, role)
+    console.log(email, password, role);
     if (!email || !password || !role) {
       return res.status(400).json({
         message: "Something is missing",
@@ -102,15 +102,13 @@ export const login = async (req, res) => {
       profile: user.profile,
     };
 
-    return res
-      .status(200)
-      .cookie("token", token, {
-        maxAge: 7 * 24 * 60 * 60 * 1000,
-        httpOnly: true,
-        sameSite: "none",
-        secure: false,
+    res.cookie("token", token, {
+  httpOnly: true,
+  maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+  sameSite: "lax", // works on localhost
+  secure: false,   // must be boolean false on localhost
+})
 
-      })
       .json({
         message: `Welcome back ${user.fullname}`,
         user,
@@ -135,8 +133,6 @@ export const logout = async (req, res) => {
     return res.status(500).json({ message: "Server error", success: false });
   }
 };
-
-
 
 // ------------------------- UPDATE PROFILE ------------------------
 export const updateProfile = async (req, res) => {
@@ -187,8 +183,3 @@ export const updateProfile = async (req, res) => {
     return res.status(500).json({ message: "Server error", success: false });
   }
 };
-
-
-
-
-
