@@ -88,7 +88,6 @@ export const login = async (req, res) => {
         success: false,
       });
     }
-
     const token = jwt.sign({ userId: user._id }, process.env.SECRET_KEY, {
       expiresIn: "1d",
     });
@@ -102,13 +101,13 @@ export const login = async (req, res) => {
       profile: user.profile,
     };
 
-    res.cookie("token", token, {
-  httpOnly: true,
-  maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
-  sameSite: "lax", // works on localhost
-  secure: false,   // must be boolean false on localhost
-})
-
+    res
+      .cookie("token", token, {
+        httpOnly: true,
+        secure: true, // because you're on https (Vercel + Render)
+        sameSite: "none", // important for cross-site cookies
+        maxAge: 1* 24 * 60 * 60 * 1000,
+      })
       .json({
         message: `Welcome back ${user.fullname}`,
         user,
